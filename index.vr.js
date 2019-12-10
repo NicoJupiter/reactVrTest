@@ -1,5 +1,6 @@
 import React from 'react';
 import TorusKnot from './class/TorusKnot'
+import SquareTest from './class/SquareTest'
 
 import {
   AppRegistry,
@@ -69,17 +70,25 @@ export default class appvr3 extends React.Component {
       <View>
         <Pano source={asset('oui.jpg')}/>
 
-        <AmbientLight intensity={2.6} />
+        <DirectionalLight />
 
         <TorusKnot
           style={{
             transform: [
-              {translate:[-4.5,1,-8]},
+              {translate: [-4, 0.5, -8] },
               { rotateY: this.state.rotation },
               { rotateX: 20 },
               { rotateZ: -10 }],
-            
-            //color: '#FFB6C1'
+           // color: '#ff0000'
+          }}
+        />
+          <SquareTest
+          style={{
+            transform: [
+              {translate:[4,1,-8]},
+              { rotateY: this.state.rotation },
+              { rotateX: 20 },
+              { rotateZ: -10 }],
           }
         }
            // Add listeners as properties
