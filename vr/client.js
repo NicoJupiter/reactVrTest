@@ -4,10 +4,16 @@
 
 // Auto-generated content.
 import {VRInstance} from 'react-vr-web';
+import RCTTorusKnot from '../views/RCTTorusKnot'
 
 function init(bundle, parent, options) {
   const vr = new VRInstance(bundle, 'appvr3', parent, {
+    
     // Add custom options here
+    customViews: [{
+      name: 'TorusKnot',
+      view: RCTTorusKnot,
+    }],
     ...options,
   });
   vr.render = function() {
