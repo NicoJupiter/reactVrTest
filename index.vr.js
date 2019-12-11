@@ -26,6 +26,7 @@ export default class appvr3 extends React.Component {
       spherePosZ : -50,
       lastPosX : 0,
       isMovingSphere: true,
+      scaleSquare : 1
     }
     this.lastUpdate = Date.now();
     this.rotate = this.rotate.bind(this);
@@ -100,12 +101,16 @@ export default class appvr3 extends React.Component {
 
   // Start animation after cursor enters element
    handleOnEnter = () => {
-     console.log("enter");
+    this.setState({
+      scaleSquare : 2
+    });
    };
  
    // Reverse animation after cursor leaves element
    handleOnExit = () => {
-    console.log("exit");
+    this.setState({
+      scaleSquare : 1
+    });
    };
 
   render() {
@@ -133,7 +138,9 @@ export default class appvr3 extends React.Component {
             { translate: [4, 1, -8] },
             { rotateY: this.state.rotation },
             { rotateX: 20 },
-            { rotateZ: -10 }],
+            { rotateZ: -10 },
+            {scaleX : this.state.scaleSquare },
+            {scaleY : this.state.scaleSquare }],
         }}
           // Add listeners as properties
           onEnter={this.handleOnEnter}

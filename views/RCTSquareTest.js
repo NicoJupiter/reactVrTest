@@ -17,8 +17,6 @@ class RCTTorusKnot extends ReactVR.RCTBaseView {
       
   }
 
-
-
   // Set torus knot mesh and add it to view object
   setMesh() {
 
