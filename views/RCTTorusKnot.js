@@ -1,8 +1,8 @@
 import * as ReactVR from 'react-vr-web';
 import * as OVRUI from 'ovrui';
 import * as THREE from 'three';
-
 import merge from 'react-vr-web/js/Utils/merge';
+
 
 class RCTTorusKnot extends ReactVR.RCTBaseView {
   constructor(guiSys) {
@@ -24,7 +24,7 @@ class RCTTorusKnot extends ReactVR.RCTBaseView {
         set: this.setColor,
       }
     );
-      
+
   }
 
   // Update torus material color
@@ -40,23 +40,32 @@ class RCTTorusKnot extends ReactVR.RCTBaseView {
   setMesh() {
 
     //type of element
+    //const geometry = new THREE.TorusGeometry(1, 3, 16, 100);
     const geometry = new THREE.Geometry();
-
     var x, y, z;
     //settings point in random place
-    for(i = 0; i < 1000; i++) {
+    for (i = 0; i < 2000; i++) {
       x = (Math.random() * 800) - 400;
       y = (Math.random() * 800) - 400;
       z = (Math.random() * 800) - 400;
-    
+
       geometry.vertices.push(new THREE.Vector3(x, y, z));
     }
 
-    //color or texture
-    const material = new THREE.PointCloudMaterial({ color: 0xffffcc });
-    
-   // this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh = new THREE.PointCloud(geometry, material);
+    //color/texture
+    const material = new THREE.PointsMaterial({
+      color: 0xffffcc,
+      size: 3,
+      map: THREE.ImageUtils.loadTexture(
+       "../static_assets/particle.png"
+      ),
+      blending: THREE.AdditiveBlending,
+      transparent: true
+    });
+
+    // this.mesh = new THREE.Mesh(geometry, material);
+    //this.mesh = new THREE.PointCloud(geometry, material);
+    this.mesh = new THREE.Points(geometry, material);
     this.view.add(this.mesh);
   }
 

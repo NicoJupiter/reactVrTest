@@ -23,7 +23,7 @@ export default class appvr3 extends React.Component {
       squarePosX : 4,
       spherePosX : 0,
       spherePosY : 0,
-      spherePosZ : -6,
+      spherePosZ : -50,
       lastPosX : 0,
       isMovingSphere: true,
     }
@@ -101,10 +101,6 @@ export default class appvr3 extends React.Component {
   // Start animation after cursor enters element
    handleOnEnter = () => {
      console.log("enter");
-     /*Animated.timing(this.state.translationElementZ, {
-       toValue:  -8,
-       duration: 400,
-     }).start();*/
    };
  
    // Reverse animation after cursor leaves element
@@ -125,14 +121,11 @@ export default class appvr3 extends React.Component {
             transform: [
               { translate: [-4, 0.5, -8] },
               { rotateY: this.state.rotation },
-              { rotateX: 20 },
+              { rotateX: this.state.rotation },
               { rotateZ: -10 }],
              color: '#ffffcc'
           }
           }
-        // Add listeners as properties
-         onEnter={this.handleOnEnter}
-         onExit={this.handleOnExit}
         />
        <SquareTest
         style={{
@@ -140,10 +133,11 @@ export default class appvr3 extends React.Component {
             { translate: [4, 1, -8] },
             { rotateY: this.state.rotation },
             { rotateX: 20 },
-            { rotateZ: -10 }
-          ],
-        }
-        }
+            { rotateZ: -10 }],
+        }}
+          // Add listeners as properties
+          onEnter={this.handleOnEnter}
+          onExit={this.handleOnExit}
       />
        <SquareTest
         style={{
@@ -178,12 +172,10 @@ export default class appvr3 extends React.Component {
         }
         }
       />
- 
-
         <Particles
           style={{
             transform: [
-              { translate: [this.state.spherePosX* 8, this.state.spherePosY * 3, this.state.spherePosZ] },
+              { translate: [this.state.spherePosX* 8, this.state.spherePosY * 3, this.state.spherePosZ] }
             ],
           }
           }
