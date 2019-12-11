@@ -1,7 +1,7 @@
 import React from 'react';
 import TorusKnot from './class/TorusKnot'
 import SquareTest from './class/SquareTest'
-import Particles from './class/Particles'
+import SpherePointer from './class/SpherePointer'
 
 import {
   AppRegistry,
@@ -179,7 +179,7 @@ export default class appvr3 extends React.Component {
         }
         }
       />
-        <Particles
+        <SpherePointer
           style={{
             transform: [
               { translate: [this.state.spherePosX* 8, this.state.spherePosY * 3, this.state.spherePosZ] }

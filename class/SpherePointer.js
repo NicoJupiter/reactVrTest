@@ -16,7 +16,7 @@ const ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 const requireNativeComponent = require('requireNativeComponent');
 
 // Create React class for TorusKnot
-const Particles = createReactClass({
+const SpherePointer = createReactClass({
   
   mixins: [NativeMethodsMixin],
 
@@ -38,13 +38,13 @@ const Particles = createReactClass({
 
     render() {
       return (
-        <RKParticles {...this.props} />
+        <RKSpherePointer {...this.props} />
       );
     },
 });
 
-const RKParticles = requireNativeComponent('Particles', Particles, {
+const RKSpherePointer = requireNativeComponent('SpherePointer', SpherePointer, {
   nativeOnly: {},
 });
 
-export default Particles;
+export default SpherePointer;

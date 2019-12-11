@@ -6,7 +6,7 @@
 import {VRInstance} from 'react-vr-web';
 import RCTTorusKnot from '../views/RCTTorusKnot'
 import RCTSquareTest from '../views/RCTSquareTest'
-import RCTParticles from '../views/RCTParticles'
+import RCTSpherePointer from '../views/RCTSpherePointer'
 
 function init(bundle, parent, options) {
   const vr = new VRInstance(bundle, 'appvr3', parent, {
@@ -21,8 +21,8 @@ function init(bundle, parent, options) {
       view: RCTSquareTest,
     },
     {
-      name: 'Particles',
-      view: RCTParticles,
+      name: 'SpherePointer',
+      view: RCTSpherePointer,
     }],
     ...options,
   });

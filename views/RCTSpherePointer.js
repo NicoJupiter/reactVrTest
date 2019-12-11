@@ -3,7 +3,7 @@ import * as OVRUI from 'ovrui';
 import * as THREE from 'three';
 import merge from 'react-vr-web/js/Utils/merge';
 
-class RCTParticles extends ReactVR.RCTBaseView {
+class RCTSpherePointer extends ReactVR.RCTBaseView {
 
     constructor(guiSys) {
         super();
@@ -30,4 +30,4 @@ class RCTParticles extends ReactVR.RCTBaseView {
 
 }
 
-export default RCTParticles
+export default RCTSpherePointer
