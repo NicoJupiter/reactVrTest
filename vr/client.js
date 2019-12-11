@@ -4,7 +4,7 @@
 
 // Auto-generated content.
 import {VRInstance} from 'react-vr-web';
-import RCTTorusKnot from '../views/RCTTorusKnot'
+import RCTParticles from '../views/RCTParticles'
 import RCTSquareTest from '../views/RCTSquareTest'
 import RCTSpherePointer from '../views/RCTSpherePointer'
 
@@ -13,8 +13,8 @@ function init(bundle, parent, options) {
     
     // Add custom options here
     customViews: [{
-      name: 'TorusKnot',
-      view: RCTTorusKnot,
+      name: 'Particles',
+      view: RCTParticles,
     },
     {
       name: 'SquareTest',

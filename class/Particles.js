@@ -15,8 +15,7 @@ const LayoutAndTransformColorPropTypes = require('LayoutAndTransformColorPropTyp
 const ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 const requireNativeComponent = require('requireNativeComponent');
 
-// Create React class for TorusKnot
-const TorusKnot = createReactClass({
+const Particles = createReactClass({
   
   mixins: [NativeMethodsMixin],
 
@@ -38,14 +37,14 @@ const TorusKnot = createReactClass({
 
     render() {
       return (
-        <RKTorusKnot {...this.props} />
+        <RKParticles {...this.props} />
       );
     },
 });
 
-// Make TorusKnot as native component
-const RKTorusKnot = requireNativeComponent('TorusKnot', TorusKnot, {
+//Make Particles as native components
+const RKParticles = requireNativeComponent('Particles', Particles, {
   nativeOnly: {},
 });
 
-export default TorusKnot;
+export default Particles;

@@ -1,5 +1,5 @@
 import React from 'react';
-import TorusKnot from './class/TorusKnot'
+import Particles from './class/Particles'
 import SquareTest from './class/SquareTest'
 import SpherePointer from './class/SpherePointer'
 
@@ -121,7 +121,7 @@ export default class appvr3 extends React.Component {
 
         <DirectionalLight />
 
-        <TorusKnot
+        <Particles
           style={{
             transform: [
               { translate: [-4, 0.5, -8] },

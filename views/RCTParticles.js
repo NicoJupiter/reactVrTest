@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import merge from 'react-vr-web/js/Utils/merge';
 
 
-class RCTTorusKnot extends ReactVR.RCTBaseView {
+class RCTParticles extends ReactVR.RCTBaseView {
   constructor(guiSys) {
     super();
     this.mesh = null;
@@ -36,7 +36,7 @@ class RCTTorusKnot extends ReactVR.RCTBaseView {
     }
   };
 
-  // Set torus knot mesh and add it to view object
+  // Set particles mesh and add it to view object
   setMesh() {
 
     //type of element
@@ -78,4 +78,4 @@ class RCTTorusKnot extends ReactVR.RCTBaseView {
 }
 
 
-export default RCTTorusKnot;
+export default RCTParticles;
