@@ -17,36 +17,46 @@ class RCTTorusKnot extends ReactVR.RCTBaseView {
 
     // Watch for changes of 'color' property
     // in 'styles' property and updated color
-    /*Object.defineProperty(
+    Object.defineProperty(
       this.style,
       'color',
       {
         set: this.setColor,
       }
-    );*/
+    );
       
   }
 
   // Update torus material color
-  /*setColor = (color) => {
+  setColor = (color) => {
     if (color === null) {
       this.mesh.material.color.setHex(0xffffff);
     } else {
       this.mesh.material.color.setHex(color);
     }
-  };*/
+  };
 
   // Set torus knot mesh and add it to view object
   setMesh() {
 
     //type of element
-    const geometry = new THREE.TorusKnotGeometry(1, 0.4, 128, 16);
+    const geometry = new THREE.Geometry();
+
+    var x, y, z;
+    //settings point in random place
+    for(i = 0; i < 1000; i++) {
+      x = (Math.random() * 800) - 400;
+      y = (Math.random() * 800) - 400;
+      z = (Math.random() * 800) - 400;
+    
+      geometry.vertices.push(new THREE.Vector3(x, y, z));
+    }
 
     //color or texture
-    const material = new THREE.MeshNormalMaterial();
-
-    this.mesh = new THREE.Mesh(geometry, material);
-
+    const material = new THREE.PointCloudMaterial({ color: 0xffffcc });
+    
+   // this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh = new THREE.PointCloud(geometry, material);
     this.view.add(this.mesh);
   }
 

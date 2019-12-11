@@ -15,7 +15,7 @@ class RCTParticles extends ReactVR.RCTBaseView {
 
     setMesh() {
      
-        const geometry = new THREE.SphereGeometry(1,64,64);
+        const geometry = new THREE.SphereGeometry(0.5,32,32);
 
         const material = new THREE.MeshNormalMaterial();
 

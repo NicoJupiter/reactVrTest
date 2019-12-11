@@ -20,8 +20,12 @@ export default class appvr3 extends React.Component {
     super(props);
     this.state = {
       rotation: 130,
-      mousePosX : 0,
-      mousePosY : 0
+      squarePosX : 4,
+      spherePosX : 0,
+      spherePosY : 0,
+      spherePosZ : -6,
+      lastPosX : 0,
+      isMovingSphere: true,
     }
     this.lastUpdate = Date.now();
     this.rotate = this.rotate.bind(this);
@@ -35,7 +39,7 @@ export default class appvr3 extends React.Component {
     this.lastUpdate = now;
 
     this.setState({
-      rotation: this.state.rotation + delta / 150
+      rotation: this.state.rotation + delta / 50
     });
     this.frameHandle = requestAnimationFrame(this.rotate);
   }
@@ -52,40 +56,67 @@ export default class appvr3 extends React.Component {
   }
 
   handleInput(event){
-    if(event.nativeEvent.inputEvent.eventType == "mousemove") {
-      console.log("x: " + event.nativeEvent.inputEvent.viewportX);
-      console.log("y: " + event.nativeEvent.inputEvent.viewportY);
+    var eventInput = event.nativeEvent.inputEvent
 
+    if(eventInput.eventType == "keydown" && eventInput.key == "t") {
       this.setState({
-        mousePosX: event.nativeEvent.inputEvent.viewportX,
-        mousePosY: event.nativeEvent.inputEvent.viewportY
+        isMovingSphere : !this.state.isMovingSphere
       });
+    }
+
+    if(this.state.isMovingSphere) {
+      if(eventInput.eventType == "keydown" && eventInput.key == "ArrowUp") {
+        console.log("keyup")
+        this.setState({
+          spherePosZ : this.state.spherePosZ -1
+        });
+      }
+  
+      if(eventInput.eventType == "keydown" && eventInput.key == "ArrowDown") {
+        console.log("keydown")
+        this.setState({
+          spherePosZ : this.state.spherePosZ +1
+        });
+      }
+  
+      var lastPosition = this.state.lastPosX;
+      if(eventInput.eventType == "mousemove" && eventInput.buttons == 0) {
+     
+        this.setState({
+          spherePosX: eventInput.viewportX - lastPosition,
+          spherePosY: eventInput.viewportY,
+          lastPosX : 0
+          
+        });
+  
+      } else {
+        this.setState({
+          lastPosX : eventInput.viewportX - this.state.spherePosX,
+        });
+      }
     }
   
   }
 
   // Start animation after cursor enters element
-  /* handleOnEnter = () => {
-     console.log("trigger");
-     Animated.timing(this.state.translationElementZ, {
+   handleOnEnter = () => {
+     console.log("enter");
+     /*Animated.timing(this.state.translationElementZ, {
        toValue:  -8,
        duration: 400,
-     }).start();
+     }).start();*/
    };
  
    // Reverse animation after cursor leaves element
    handleOnExit = () => {
-     console.log("exit");
-     Animated.timing(this.state.translationElementZ, {
-       toValue:  -4,
-       duration: 400,
-     }).start();
-   };*/
+    console.log("exit");
+   };
 
   render() {
+
     return (
       <View onInput={this.handleInput}>
-        <Pano source={asset('oui.jpg')} />
+        <Pano source={asset('test.jpg')} />
 
         <DirectionalLight />
 
@@ -96,29 +127,63 @@ export default class appvr3 extends React.Component {
               { rotateY: this.state.rotation },
               { rotateX: 20 },
               { rotateZ: -10 }],
-            // color: '#ff0000'
-          }
-          }
-        />
-        <SquareTest
-          style={{
-            transform: [
-              { translate: [4, 1, -8] },
-              { rotateY: this.state.rotation },
-              { rotateX: 20 },
-              { rotateZ: -10 }
-            ],
+             color: '#ffffcc'
           }
           }
         // Add listeners as properties
-        /* onEnter={this.handleOnEnter}
-         onExit={this.handleOnExit}*/
+         onEnter={this.handleOnEnter}
+         onExit={this.handleOnExit}
         />
+       <SquareTest
+        style={{
+          transform: [
+            { translate: [4, 1, -8] },
+            { rotateY: this.state.rotation },
+            { rotateX: 20 },
+            { rotateZ: -10 }
+          ],
+        }
+        }
+      />
+       <SquareTest
+        style={{
+          transform: [
+            { translate: [7, 1, -8] },
+            { rotateY: this.state.rotation },
+            { rotateX: 20 },
+            { rotateZ: -10 }
+          ],
+        }
+        }
+      />
+       <SquareTest
+        style={{
+          transform: [
+            { translate: [10, 1, -8] },
+            { rotateY: this.state.rotation },
+            { rotateX: 20 },
+            { rotateZ: -10 }
+          ],
+        }
+        }
+      />
+       <SquareTest
+        style={{
+          transform: [
+            { translate: [13, 1, -8] },
+            { rotateY: this.state.rotation },
+            { rotateX: 20 },
+            { rotateZ: -10 }
+          ],
+        }
+        }
+      />
+ 
 
         <Particles
           style={{
             transform: [
-              { translate: [this.state.mousePosX, this.state.mousePosY, -6] },
+              { translate: [this.state.spherePosX* 8, this.state.spherePosY * 3, this.state.spherePosZ] },
             ],
           }
           }
