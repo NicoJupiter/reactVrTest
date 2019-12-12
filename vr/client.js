@@ -8,6 +8,7 @@ import RCTParticles from '../views/RCTParticles'
 import RCTSquareTest from '../views/RCTSquareTest'
 import RCTSpherePointer from '../views/RCTSpherePointer'
 import RCTBlackHole from '../views/RCTBlackHole'
+import RCTMagnet from '../views/RCTMagnet'
 
 function init(bundle, parent, options) {
   const vr = new VRInstance(bundle, 'appvr3', parent, {
@@ -28,6 +29,10 @@ function init(bundle, parent, options) {
     {
       name: 'BlackHole',
       view: RCTBlackHole,
+    },
+    {
+      name: 'Magnet',
+      view: RCTMagnet,
     }],
     ...options,
   });
