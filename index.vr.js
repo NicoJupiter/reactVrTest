@@ -29,11 +29,12 @@ export default class appvr3 extends React.Component {
       scaleSquare : 1
     }
     this.lastUpdate = Date.now();
+    //for get this in methods
     this.rotate = this.rotate.bind(this);
     this.handleInput = this.handleInput.bind(this);
   }
 
-
+  //rotation method
   rotate() {
     const now = Date.now();
     const delta = now - this.lastUpdate;
@@ -45,6 +46,7 @@ export default class appvr3 extends React.Component {
     this.frameHandle = requestAnimationFrame(this.rotate);
   }
 
+  
   componentDidMount() {
     this.rotate();
   }
@@ -56,6 +58,7 @@ export default class appvr3 extends React.Component {
     }
   }
 
+  //method for moving sphere
   handleInput(event){
     var eventInput = event.nativeEvent.inputEvent
 
@@ -135,7 +138,7 @@ export default class appvr3 extends React.Component {
        <SquareTest
         style={{
           transform: [
-            { translate: [4, 1, -8] },
+            { translate: [2, 1, -8] },
             { rotateY: this.state.rotation },
             { rotateX: 20 },
             { rotateZ: -10 },
@@ -149,7 +152,18 @@ export default class appvr3 extends React.Component {
        <SquareTest
         style={{
           transform: [
-            { translate: [7, 1, -8] },
+            { translate: [5, 1, -8] },
+            { rotateY: this.state.rotation },
+            { rotateX:  this.state.rotation },
+            { rotateZ: -10 }
+          ],
+        }
+        }
+      />
+       <SquareTest
+        style={{
+          transform: [
+            { translate: [7, 1, -6] },
             { rotateY: this.state.rotation },
             { rotateX: 20 },
             { rotateZ: -10 }
@@ -160,20 +174,9 @@ export default class appvr3 extends React.Component {
        <SquareTest
         style={{
           transform: [
-            { translate: [10, 1, -8] },
+            { translate: [10, 1, -4] },
             { rotateY: this.state.rotation },
-            { rotateX: 20 },
-            { rotateZ: -10 }
-          ],
-        }
-        }
-      />
-       <SquareTest
-        style={{
-          transform: [
-            { translate: [13, 1, -8] },
-            { rotateY: this.state.rotation },
-            { rotateX: 20 },
+            { rotateX:  this.state.rotation },
             { rotateZ: -10 }
           ],
         }
@@ -182,7 +185,7 @@ export default class appvr3 extends React.Component {
         <SpherePointer
           style={{
             transform: [
-              { translate: [this.state.spherePosX* 8, this.state.spherePosY * 3, this.state.spherePosZ] }
+              { translate: [this.state.spherePosX* 20, this.state.spherePosY * 3, this.state.spherePosZ] }
             ],
           }
           }
