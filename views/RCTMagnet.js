@@ -27,7 +27,6 @@ class RCTMagnet extends ReactVR.RCTBaseView {
 
 
     addSphere() {
-   
         var radius = 1, segments = 30 * 3, rings = 30 * 3;
         var geometry = new THREE.SphereGeometry(radius, segments, rings);
 
