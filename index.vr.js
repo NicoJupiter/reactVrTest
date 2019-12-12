@@ -2,6 +2,7 @@ import React from 'react';
 import Particles from './class/Particles'
 import SquareTest from './class/SquareTest'
 import SpherePointer from './class/SpherePointer'
+import BlackHole from './class/BlackHole'
 
 import {
   AppRegistry,
