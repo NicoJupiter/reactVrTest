@@ -3,7 +3,6 @@ import Particles from './class/Particles'
 import SquareTest from './class/SquareTest'
 import SpherePointer from './class/SpherePointer'
 import BlackHole from './class/BlackHole'
-
 import {
   AppRegistry,
   asset,
@@ -13,6 +12,7 @@ import {
   AmbientLight,
   Animated
 } from 'react-vr';
+
 
 
 export default class appvr3 extends React.Component {
@@ -26,7 +26,7 @@ export default class appvr3 extends React.Component {
       spherePosY : 0,
       spherePosZ : -50,
       lastPosX : 0,
-      isMovingSphere: true,
+      isMovingSphere: false,
       scaleSquare : 1
     }
     this.lastUpdate = Date.now();
@@ -191,6 +191,11 @@ export default class appvr3 extends React.Component {
           }
           }
         />
+
+        <BlackHole
+
+        />
+
 
       </View>
     );
