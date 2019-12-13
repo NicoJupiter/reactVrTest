@@ -15,7 +15,6 @@ const LayoutAndTransformColorPropTypes = require('LayoutAndTransformColorPropTyp
 const ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 const requireNativeComponent = require('requireNativeComponent');
 
-// Create React class for TorusKnot
 const Magnet = createReactClass({
   
   mixins: [NativeMethodsMixin],
@@ -33,6 +32,7 @@ const Magnet = createReactClass({
     },
 
     getDefaultProps() {
+
       return {};
     },
 

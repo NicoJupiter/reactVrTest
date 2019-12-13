@@ -23,17 +23,19 @@ export default class appvr3 extends React.Component {
     super(props);
     this.state = {
       rotation: 130,
-      spherePos: {x: -50, y:-60, z:50},
-      blackHolePos : {x: 4 , y: 0, z: -4},
-      magnetPos : {x: 0, y: 1, z:-8},
+      spherePos: { x: -50, y: -60, z: 50 },
+      blackHolePos: { x: 0, y: 0, z: -4 },
+      magnetPos: { x: 0, y: 1, z: -8 },
       isMovingSphere: true,
-      scaleSquare : 1,
+      scaleSquare: 1,
+      magnets: []
     }
     this.lastUpdate = Date.now();
     //for get this in methods
     this.rotate = this.rotate.bind(this);
     this.moveSphere = this.moveSphere.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.generatMagnet = this.generatMagnet.bind(this);
   }
 
   //rotation method
@@ -48,23 +50,18 @@ export default class appvr3 extends React.Component {
     this.frameHandle = requestAnimationFrame(this.rotate);
   }
 
-  moveSphere()
-  {
-    console.log(this.state.spherePos);
-  
-   
-   var numberx = this.state.spherePos.x + (this.state.blackHolePos.x - this.state.spherePos.x) * 0.05;
-   var numbery = this.state.spherePos.y + (this.state.blackHolePos.y - this.state.spherePos.y) * 0.05;
-   var numberz = this.state.spherePos.z + (this.state.blackHolePos.z - this.state.spherePos.z) * 0.05;
- 
-   var roundx = Math.round(numberx * 1000) / 1000;
-   var roundy = Math.round(numbery * 1000) / 1000;
-   var roundz = Math.round(numberz * 1000) / 1000
-   /* if(Math.round(numberx * 1000) / 1000 > this.state.blackHolePos.x + 0.01) {
-      
-    }*/
+  moveSphere() {
+    //console.log(this.state.spherePos);
 
-    if(this.state.spherePos.x !== roundx && this.state.spherePos.y !== roundy && this.state.spherePos.z !== roundz) {
+    var numberx = this.state.spherePos.x + (this.state.blackHolePos.x - this.state.spherePos.x) * 0.05;
+    var numbery = this.state.spherePos.y + (this.state.blackHolePos.y - this.state.spherePos.y) * 0.05;
+    var numberz = this.state.spherePos.z + (this.state.blackHolePos.z - this.state.spherePos.z) * 0.05;
+
+    var roundx = Math.round(numberx * 1000) / 1000;
+    var roundy = Math.round(numbery * 1000) / 1000;
+    var roundz = Math.round(numberz * 1000) / 1000
+
+    if (this.state.spherePos.x !== roundx && this.state.spherePos.y !== roundy && this.state.spherePos.z !== roundz) {
       this.setState({
         spherePos: {
           x: roundx,
@@ -80,10 +77,11 @@ export default class appvr3 extends React.Component {
   }
 
 
-  
+
   componentDidMount() {
     this.rotate();
     this.moveSphere();
+    this.generatMagnet();
 
   }
 
@@ -95,117 +93,138 @@ export default class appvr3 extends React.Component {
   }
 
   //method for moving sphere
-  handleInput(event){
+  handleInput(event) {
 
     var eventInput = event.nativeEvent.inputEvent
 
-    if(eventInput.eventType == "keydown" && eventInput.key == "t") {
+    if (eventInput.eventType == "keydown" && eventInput.key == "t") {
       this.setState({
-        isMovingSphere : !this.state.isMovingSphere
+        isMovingSphere: !this.state.isMovingSphere
       });
     }
 
-    if(this.state.isMovingSphere && eventInput.eventType !== "mousemove") {
-  
-      if(eventInput.eventType == "keydown" && eventInput.key == "ArrowUp") {
-   
+    if (this.state.isMovingSphere && eventInput.eventType !== "mousemove") {
+
+      if (eventInput.eventType == "keydown" && eventInput.key == "ArrowUp") {
+
         this.setState({
           spherePos: {
             x: this.state.spherePos.x,
             y: this.state.spherePos.y,
-            z: this.state.spherePos.z -1
+            z: this.state.spherePos.z - 1
           }
         });
 
       }
 
-      if(eventInput.eventType == "keydown" && eventInput.key == "ArrowDown") {
-   
+      if (eventInput.eventType == "keydown" && eventInput.key == "ArrowDown") {
+
         this.setState({
           spherePos: {
             x: this.state.spherePos.x,
             y: this.state.spherePos.y,
-            z: this.state.spherePos.z +1
+            z: this.state.spherePos.z + 1
           }
         });
 
       }
-  
-      if(eventInput.eventType == "keydown" && eventInput.key == "ArrowLeft") {
-        console.log("keydown")
-        this.setState({
-          spherePos: {
-            x: this.state.spherePos.x -1,
-            y: this.state.spherePos.y,
-            z: this.state.spherePos.z
-          }
-        });
-      }
 
-      if(eventInput.eventType == "keydown" && eventInput.key == "ArrowRight") {
+      if (eventInput.eventType == "keydown" && eventInput.key == "ArrowLeft") {
         console.log("keydown")
         this.setState({
           spherePos: {
-            x: this.state.spherePos.x +1,
+            x: this.state.spherePos.x - 1,
             y: this.state.spherePos.y,
             z: this.state.spherePos.z
           }
         });
       }
 
-      if(eventInput.eventType == "keydown" && eventInput.key == "1") {
+      if (eventInput.eventType == "keydown" && eventInput.key == "ArrowRight") {
         console.log("keydown")
         this.setState({
           spherePos: {
-            x: this.state.spherePos.x,
-            y: this.state.spherePos.y -1,
+            x: this.state.spherePos.x + 1,
+            y: this.state.spherePos.y,
             z: this.state.spherePos.z
           }
         });
       }
 
-      if(eventInput.eventType == "keydown" && eventInput.key == "2") {
+      if (eventInput.eventType == "keydown" && eventInput.key == "1") {
         console.log("keydown")
         this.setState({
           spherePos: {
             x: this.state.spherePos.x,
-            y: this.state.spherePos.y +1,
+            y: this.state.spherePos.y - 1,
             z: this.state.spherePos.z
           }
         });
       }
 
-      var dist = this.getDistance3d(this.state.spherePos, this.state.blackHolePos);
+      if (eventInput.eventType == "keydown" && eventInput.key == "2") {
+        console.log("keydown")
+        this.setState({
+          spherePos: {
+            x: this.state.spherePos.x,
+            y: this.state.spherePos.y + 1,
+            z: this.state.spherePos.z
+          }
+        });
+      }
+
+      //  var dist = this.getDistance3d(this.state.spherePos, this.state.blackHolePos);
 
     }
 
-  
-  
+
+
   }
 
- getDistance3d(vertex1, vertex2) {
+  getDistance3d(vertex1, vertex2) {
     var xfactor = vertex2.x - vertex1.x;
     var yfactor = vertex2.y - vertex1.y;
     var zfactor = vertex2.z - vertex1.z;
-    return Math.sqrt( (xfactor*xfactor) + (yfactor*yfactor) + (zfactor*zfactor) );
-}
+    return Math.sqrt((xfactor * xfactor) + (yfactor * yfactor) + (zfactor * zfactor));
+  }
 
 
   // Start animation after cursor enters element
-   handleOnEnter = () => {
+  handleOnEnter = () => {
     this.setState({
-      scaleSquare : 2
+      scaleSquare: 2
     });
-   };
- 
-   // Reverse animation after cursor leaves element
-   handleOnExit = () => {
+  };
+
+  // Reverse animation after cursor leaves element
+  handleOnExit = () => {
     this.setState({
-      scaleSquare : 1
+      scaleSquare: 1
     });
-   };
+  };
+
+  generatMagnet() {
+
+    var magnetsArray = [];
+    var x, y, z;
+    //settings point in random place
+    for (i = 0; i < 10; i++) {
+      x = (Math.random() * 200) - 100;
+      y = (Math.random() * 200) - 100;
+      z = (Math.random() * 200) - 100;
+
+      magnetsArray.push(<Magnet key={i} style={{ transform: [{ translate: [x, y, z] }]}} />)
+    }
+
+    this.setState({
+      magnets : magnetsArray
+    })
+
+  }
 
   render() {
+
+    const {magnets} = this.state;
 
     return (
       <View onInput={this.handleInput}>
@@ -220,83 +239,79 @@ export default class appvr3 extends React.Component {
               { rotateY: this.state.rotation },
               { rotateX: this.state.rotation },
               { rotateZ: -10 }],
-             color: '#ffffcc'
+            color: '#ffffcc'
           }
           }
         />
-       <SquareTest
-        style={{
-          transform: [
-            { translate: [2, 1, -8] },
-            { rotateY: this.state.rotation },
-            { rotateX: 20 },
-            { rotateZ: -10 },
-            {scaleX : this.state.scaleSquare },
-            {scaleY : this.state.scaleSquare }],
-        }}
+        <SquareTest
+          style={{
+            transform: [
+              { translate: [2, 1, -8] },
+              { rotateY: this.state.rotation },
+              { rotateX: 20 },
+              { rotateZ: -10 },
+              { scaleX: this.state.scaleSquare },
+              { scaleY: this.state.scaleSquare }],
+          }}
           // Add listeners as properties
           onEnter={this.handleOnEnter}
           onExit={this.handleOnExit}
-      />
-       <SquareTest
-        style={{
-          transform: [
-            { translate: [5, 1, -8] },
-            { rotateY: this.state.rotation },
-            { rotateX:  this.state.rotation },
-            { rotateZ: -10 }
-          ],
-        }
-        }
-      />
-       <SquareTest
-        style={{
-          transform: [
-            { translate: [7, 1, -6] },
-            { rotateY: this.state.rotation },
-            { rotateX: 20 },
-            { rotateZ: -10 }
-          ],
-        }
-        }
-      />
-       <SquareTest
-        style={{
-          transform: [
-            { translate: [10, 1, -4] },
-            { rotateY: this.state.rotation },
-            { rotateX:  this.state.rotation },
-            { rotateZ: -10 }
-          ],
-        }
-        }
-      />
+        />
+        <SquareTest
+          style={{
+            transform: [
+              { translate: [5, 1, -8] },
+              { rotateY: this.state.rotation },
+              { rotateX: this.state.rotation },
+              { rotateZ: -10 }
+            ],
+          }
+          }
+        />
+        <SquareTest
+          style={{
+            transform: [
+              { translate: [7, 1, -6] },
+              { rotateY: this.state.rotation },
+              { rotateX: 20 },
+              { rotateZ: -10 }
+            ],
+          }
+          }
+        />
+        <SquareTest
+          style={{
+            transform: [
+              { translate: [10, 1, -4] },
+              { rotateY: this.state.rotation },
+              { rotateX: this.state.rotation },
+              { rotateZ: -10 }
+            ],
+          }
+          }
+        />
         <SpherePointer
-            style={{
-              transform: [
-                { translate: [-24, 1, -30] }
-              ],
-            }
-            }
+          style={{
+            transform: [
+              { translate: [-24, 1, -30] }
+            ],
+          }
+          }
         />
 
-        <BlackHole 
-        style={{
-          transform: [
-            { translate: [this.state.blackHolePos.x, this.state.blackHolePos.y, this.state.blackHolePos.z] },
-   
-          ]
-        }}
+        <BlackHole
+          style={{
+            transform: [
+              { translate: [this.state.blackHolePos.x, this.state.blackHolePos.y, this.state.blackHolePos.z] },
+
+            ]
+          }}
         />
 
-        <Magnet
-         style={{
-          transform: [
-            { translate: [this.state.spherePos.x, this.state.spherePos.y, this.state.spherePos.z] }
-          ],
-        }
-        }
-        />
+    { magnets.length > 0 ? 
+      magnets.map((item,i) => item)
+    : null }
+    
 
 
       </View>
