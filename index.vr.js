@@ -25,19 +25,21 @@ export default class appvr3 extends React.Component {
       rotation: 130,
       spherePos: { x: -50, y: -60, z: 50 },
       blackHolePos: { x: -8, y: 0, z: -8 },
+      destPos : {x: 0 , y:0, z:0 },
       isMovingSphere: true,
       scaleSquare: 1,
     }
+
     this.magnets = [];
     this.isOkayMagnets = [];
-
     this.lastUpdate = Date.now();
     //for get this in methods
     this.rotate = this.rotate.bind(this);
     this.magneticForce = this.magneticForce.bind(this);
-    this.expulsionForce = this.expulsionForce.bind(this);
+    this.resetPostition = this.resetPostition.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.generateMagnet = this.generateMagnet.bind(this);
+    
   }
 
   //rotation method
@@ -61,9 +63,9 @@ export default class appvr3 extends React.Component {
     this.magnets.map((vector, index) => {
 
 
-      var numberx = vector.x + (this.state.blackHolePos.x - vector.x) * 0.05;
-      var numbery = vector.y + (this.state.blackHolePos.y - vector.y) * 0.05;
-      var numberz = vector.z + (this.state.blackHolePos.z - vector.z) * 0.05;
+      var numberx = vector.x + (this.state.destPos.x - vector.x) * 0.05;
+      var numbery = vector.y + (this.state.destPos.y - vector.y) * 0.05;
+      var numberz = vector.z + (this.state.destPos.z - vector.z) * 0.05;
 
       var roundx = Math.round(numberx * 1000) / 1000;
       var roundy = Math.round(numbery * 1000) / 1000;
@@ -89,13 +91,11 @@ export default class appvr3 extends React.Component {
 
   }
 
-  expulsionForce() {
+  resetPostition() {
 
-    this.frameExpulsion = requestAnimationFrame(this.expulsionForce);
+    this.frameExpulsion = requestAnimationFrame(this.resetPostition);
 
     let isFalse = (currentValue) => currentValue === false;
-
-    console.log(this.isOkayMagnets.every(isFalse));
 
     this.magnets.map((vector, index) => {
 
@@ -151,13 +151,15 @@ export default class appvr3 extends React.Component {
 
     if (eventInput.eventType == "keydown" && eventInput.key == "Enter") {
 
+      this.setState({
+        destPos: this.state.blackHolePos
+      })
       this.magneticForce();
     }
 
     if (eventInput.eventType == "keydown" && eventInput.key == "p") {
 
-      console.log("expulsion")
-      this.expulsionForce();
+      this.resetPostition();
     }
 
 
