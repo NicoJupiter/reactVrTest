@@ -24,8 +24,7 @@ export default class appvr3 extends React.Component {
     this.state = {
       rotation: 130,
       spherePos: { x: -50, y: -60, z: 50 },
-      blackHolePos: { x: 0, y: 0, z: -4 },
-      magnetPos: { x: 0, y: 1, z: -8 },
+      blackHolePos: { x: -8, y: 0, z: -8 },
       isMovingSphere: true,
       scaleSquare: 1,
     }
@@ -36,6 +35,7 @@ export default class appvr3 extends React.Component {
     //for get this in methods
     this.rotate = this.rotate.bind(this);
     this.magneticForce = this.magneticForce.bind(this);
+    this.expulsionForce = this.expulsionForce.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.generateMagnet = this.generateMagnet.bind(this);
   }
@@ -73,7 +73,7 @@ export default class appvr3 extends React.Component {
       if (vector.x !== roundx && vector.y !== roundy && vector.z !== roundz) {
 
         console.log(vector.x, roundx, vector.y, roundy)
-        this.magnets[index] = { x: roundx, y: roundy, z: roundz }
+        this.magnets[index] = { x: roundx, y: roundy, z: roundz, initialx: vector.initialx, initialy:vector.initialy, initialz:vector.initialz }
 
       } else {
         console.log("index isOkay : " + index);
@@ -87,6 +87,41 @@ export default class appvr3 extends React.Component {
 
     })
 
+  }
+
+  expulsionForce() {
+
+    this.frameExpulsion = requestAnimationFrame(this.expulsionForce);
+
+    let isFalse = (currentValue) => currentValue === false;
+
+    console.log(this.isOkayMagnets.every(isFalse));
+
+    this.magnets.map((vector, index) => {
+
+      var numberx = vector.x + (vector.initialx - vector.x) * 0.05;
+      var numbery = vector.y + (vector.initialy - vector.y) * 0.05;
+      var numberz = vector.z + (vector.initialz - vector.z) * 0.05;
+
+      var roundx = Math.round(numberx * 1000) / 1000;
+      var roundy = Math.round(numbery * 1000) / 1000;
+      var roundz = Math.round(numberz * 1000) / 1000;
+
+      if (vector.x !== roundx && vector.y !== roundy && vector.z !== roundz) {
+
+        console.log(vector.x, roundx, vector.y, roundy)
+        this.magnets[index] = { x: roundx, y: roundy, z: roundz, initialx: vector.initialx, initialy:vector.initialy, initialz:vector.initialz }
+
+      } else {
+        console.log("index isOkay : " + index);
+        this.isOkayMagnets[index] = false;
+      }
+
+      if (this.isOkayMagnets.every(isFalse)) {
+        console.log("stop");
+        cancelAnimationFrame(this.frameExpulsion);
+      }
+    })
   }
 
   componentDidMount() {
@@ -117,7 +152,12 @@ export default class appvr3 extends React.Component {
     if (eventInput.eventType == "keydown" && eventInput.key == "Enter") {
 
       this.magneticForce();
-      // this.magnets.map((item, i) => this.magneticForce(item, i));
+    }
+
+    if (eventInput.eventType == "keydown" && eventInput.key == "p") {
+
+      console.log("expulsion")
+      this.expulsionForce();
     }
 
 
@@ -223,13 +263,12 @@ export default class appvr3 extends React.Component {
 
     var magnetsArray = [];
     var x, y, z;
-    //settings point in random place
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 10; i++) {
       x = (Math.random() * 200) - 100;
       y = (Math.random() * 200) - 100;
       z = (Math.random() * 200) - 100;
 
-      magnetsArray.push({ x: x, y: y, z: z })
+      magnetsArray.push({ x: x, y: y, z: z, initialx: x, initialy:y, initialz:z })
       this.isOkayMagnets[i] = false;
 
     }

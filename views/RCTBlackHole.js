@@ -40,7 +40,6 @@ class RCTBlackHole extends ReactVR.RCTBaseView {
         this.sphere = new THREE.Mesh(geometry, material);
         this.sphere.dynamic = true;
         
-        this.sphere.position.set(-4, 0, -8);
         this.sphere.doubleSided = true;
         this.mainGroup.add(this.sphere);
 
