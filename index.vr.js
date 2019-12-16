@@ -28,14 +28,15 @@ export default class appvr3 extends React.Component {
       magnetPos: { x: 0, y: 1, z: -8 },
       isMovingSphere: true,
       scaleSquare: 1,
-      magnets: []
     }
+    this.magnets = [];
+
     this.lastUpdate = Date.now();
     //for get this in methods
     this.rotate = this.rotate.bind(this);
-    this.moveSphere = this.moveSphere.bind(this);
+    this.magneticForce = this.magneticForce.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.generatMagnet = this.generatMagnet.bind(this);
+    this.generateMagnet = this.generateMagnet.bind(this);
   }
 
   //rotation method
@@ -50,39 +51,36 @@ export default class appvr3 extends React.Component {
     this.frameHandle = requestAnimationFrame(this.rotate);
   }
 
-  moveSphere() {
-    //console.log(this.state.spherePos);
+  magneticForce() {
 
-    var numberx = this.state.spherePos.x + (this.state.blackHolePos.x - this.state.spherePos.x) * 0.05;
-    var numbery = this.state.spherePos.y + (this.state.blackHolePos.y - this.state.spherePos.y) * 0.05;
-    var numberz = this.state.spherePos.z + (this.state.blackHolePos.z - this.state.spherePos.z) * 0.05;
+    this.magnets.map((vector, index) => {
 
-    var roundx = Math.round(numberx * 1000) / 1000;
-    var roundy = Math.round(numbery * 1000) / 1000;
-    var roundz = Math.round(numberz * 1000) / 1000
+    
+      var numberx = vector.x + (this.state.blackHolePos.x - vector.x) * 0.05;
+      var numbery = vector.y + (this.state.blackHolePos.y - vector.y) * 0.05;
+      var numberz = vector.z + (this.state.blackHolePos.z - vector.z) * 0.05;
 
-    if (this.state.spherePos.x !== roundx && this.state.spherePos.y !== roundy && this.state.spherePos.z !== roundz) {
-      this.setState({
-        spherePos: {
-          x: roundx,
-          y: roundy,
-          z: roundz
-        }
-      });
-      requestAnimationFrame(this.moveSphere);
-    } else {
-      console.log("stop");
-      cancelAnimationFrame(this.moveSphere);
-    }
+      var roundx = Math.round(numberx * 1000) / 1000;
+      var roundy = Math.round(numbery * 1000) / 1000;
+      var roundz = Math.round(numberz * 1000) / 1000
+
+      if (vector.x !== roundx && vector.y !== roundy && vector.z !== roundz) {
+      
+        this.magnets[index] = {x:roundx, y:roundy,z:roundz}
+        requestAnimationFrame(this.magneticForce);
+ 
+      } else {
+        console.log("stop");
+        cancelAnimationFrame(this.magneticForce);
+      }
+
+    })
   }
-
-
 
   componentDidMount() {
     this.rotate();
-    this.moveSphere();
-    this.generatMagnet();
-
+    this.generateMagnet();
+ 
   }
 
   componentWillUnmount() {
@@ -97,11 +95,19 @@ export default class appvr3 extends React.Component {
 
     var eventInput = event.nativeEvent.inputEvent
 
+   
     if (eventInput.eventType == "keydown" && eventInput.key == "t") {
       this.setState({
         isMovingSphere: !this.state.isMovingSphere
       });
     }
+
+    if (eventInput.eventType == "keydown" && eventInput.key == "Enter") {
+
+      this.magneticForce();
+      //this.magnets.map((item, i) => this.magneticForce(item, i));
+    }
+    
 
     if (this.state.isMovingSphere && eventInput.eventType !== "mousemove") {
 
@@ -203,29 +209,30 @@ export default class appvr3 extends React.Component {
     });
   };
 
-  generatMagnet() {
+  generateMagnet() {
 
     var magnetsArray = [];
     var x, y, z;
     //settings point in random place
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 5; i++) {
       x = (Math.random() * 200) - 100;
       y = (Math.random() * 200) - 100;
       z = (Math.random() * 200) - 100;
 
-      magnetsArray.push(<Magnet key={i} style={{ transform: [{ translate: [x, y, z] }]}} />)
+      magnetsArray.push({x:x,y:y,z:z})
+
     }
 
-    this.setState({
-      magnets : magnetsArray
-    })
+    this.magnets = magnetsArray;
 
   }
 
   render() {
 
-    const {magnets} = this.state;
+   // var isOk;
 
+    //this.state.magnets.length == 200 ?  isOk = true :  isOk = false;
+  
     return (
       <View onInput={this.handleInput}>
         <Pano source={asset('test.jpg')} />
@@ -308,11 +315,15 @@ export default class appvr3 extends React.Component {
           }}
         />
 
-    { magnets.length > 0 ? 
-      magnets.map((item,i) => item)
+    { this.magnets.length > 0  ? 
+       this.magnets.map((item,i) => 
+       <Magnet key={i} 
+       style={{
+         transform: [
+           { translate:[item.x, item.y,item.z]}
+          ]
+        }} />)
     : null }
-    
-
 
       </View>
     );
